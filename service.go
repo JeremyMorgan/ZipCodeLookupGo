@@ -4,8 +4,10 @@ import (
 	"database/sql"
 	"github.com/gin-gonic/gin"
 	_ "github.com/mattn/go-sqlite3"
+	"io"
 	"log"
 	"net/http"
+	"os"
 )
 
 type City struct {
@@ -20,6 +22,13 @@ type City struct {
 }
 
 func main() {
+
+	gin.SetMode(gin.ReleaseMode)
+
+	// Logging to a file.
+	f, _ := os.Create("zipcode.log")
+	gin.DefaultWriter = io.MultiWriter(f)
+
 	router := gin.Default()
 
 	v1 := router.Group("/v1")
@@ -34,9 +43,9 @@ func main() {
 
 func zipLookup(c *gin.Context){
 	validResult := true
-
+	// variables
 	var cities []City
-	// from URL
+	// from param
 	city := c.Query("city")
 
 	db, err := sql.Open("sqlite3", "./zipcode.db")
@@ -77,6 +86,7 @@ func cityLookup(c *gin.Context) {
 
 	// variables
 	var city City
+
 	// from URL
 	zip := c.Param("zip")
 
