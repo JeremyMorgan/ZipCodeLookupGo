@@ -39,6 +39,7 @@ func main() {
 		v1.GET("/cityonly/:zip", quickCityLookup)
 	}
 	autotls.Run(router, "zippy-zmqa4.ondigitalocean.app")
+
 	//router.RunTLS() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
 
