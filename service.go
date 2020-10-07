@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"github.com/gin-gonic/autotls"
 )
 
 type City struct {
@@ -37,8 +38,8 @@ func main() {
 		v1.GET("/zip", zipLookup)
 		v1.GET("/cityonly/:zip", quickCityLookup)
 	}
-
-	router.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	autotls.Run(router, "zippy-zmqa4.ondigitalocean.app")
+	//router.RunTLS() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
 
 func zipLookup(c *gin.Context){
